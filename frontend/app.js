@@ -55,7 +55,7 @@ async function login() {
 
   token = data.access_token;
   localStorage.setItem("token", token);
-  localStorage.setItem("username", credentials.username || document.getElementById("login-username").value.trim());
+  localStorage.setItem("username", username);
   showTasks();
 }
 
