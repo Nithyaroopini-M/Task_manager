@@ -5,8 +5,21 @@ let currentPage = 1;
 const PAGE_LIMIT = 5;
 
 // --- Init ---
-window.onload = () => {
-  if (token) showTasks();
+window.onload = async () => {
+  if (token) {
+    // Validate token is still good before showing tasks
+    const res = await fetch(`${API}/tasks?page=1&limit=1`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      showTasks();
+    } else {
+      // Token expired or invalid — clear and show login
+      token = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+    }
+  }
 };
 
 // --- Auth toggle ---
